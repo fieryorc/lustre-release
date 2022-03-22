@@ -978,7 +978,6 @@ EXTRA_KCFLAGS="-Werror"
 LB_CHECK_COMPILE([if filldir_t uses struct dir_context],
 filldir_ctx, [
 	#include <linux/fs.h>
-],[
 	int filldir(struct dir_context *ctx, const char* name,
 		    int i, loff_t off, u64 tmp, unsigned temp)
 	{
@@ -988,7 +987,7 @@ filldir_ctx, [
 	struct dir_context ctx = {
 		.actor = filldir,
 	};
-
+],[
 	ctx.actor(NULL, "test", 0, (loff_t) 0, 0, 0);
 ],[
 	AC_DEFINE(HAVE_FILLDIR_USE_CTX, 1,

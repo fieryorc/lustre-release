@@ -42,6 +42,8 @@
 
 #include "osc_internal.h"
 
+int osc_lock_invariant(struct osc_lock *ols);
+
 /** \addtogroup osc
  *  @{
  */
@@ -51,65 +53,65 @@
  * pointer cannot be dereferenced, as lock is not protected from concurrent
  * reclaim. This function is a helper for osc_lock_invariant().
  */
-static struct ldlm_lock *osc_handle_ptr(struct lustre_handle *handle)
-{
-        struct ldlm_lock *lock;
+// static struct ldlm_lock *osc_handle_ptr(struct lustre_handle *handle)
+// {
+//         struct ldlm_lock *lock;
 
-        lock = ldlm_handle2lock(handle);
-        if (lock != NULL)
-                LDLM_LOCK_PUT(lock);
-        return lock;
-}
+//         lock = ldlm_handle2lock(handle);
+//         if (lock != NULL)
+//                 LDLM_LOCK_PUT(lock);
+//         return lock;
+// }
 
 /**
  * Invariant that has to be true all of the time.
  */
-static int osc_lock_invariant(struct osc_lock *ols)
-{
-	struct ldlm_lock *lock	      = osc_handle_ptr(&ols->ols_handle);
-	struct ldlm_lock *olock	      = ols->ols_dlmlock;
-	int		  handle_used = lustre_handle_is_used(&ols->ols_handle);
+// static int osc_lock_invariant(struct osc_lock *ols)
+// {
+// 	struct ldlm_lock *lock	      = osc_handle_ptr(&ols->ols_handle);
+// 	struct ldlm_lock *olock	      = ols->ols_dlmlock;
+// 	int		  handle_used = lustre_handle_is_used(&ols->ols_handle);
 
-	if (ergo(osc_lock_is_lockless(ols),
-		 ols->ols_locklessable && ols->ols_dlmlock == NULL))
-		return 1;
+// 	if (ergo(osc_lock_is_lockless(ols),
+// 		 ols->ols_locklessable && ols->ols_dlmlock == NULL))
+// 		return 1;
 
-	/*
-	 * If all the following "ergo"s are true, return 1, otherwise 0
-	 */
-	if (! ergo(olock != NULL, handle_used))
-		return 0;
+// 	/*
+// 	 * If all the following "ergo"s are true, return 1, otherwise 0
+// 	 */
+// 	if (! ergo(olock != NULL, handle_used))
+// 		return 0;
 
-	if (! ergo(olock != NULL,
-		   olock->l_handle.h_cookie == ols->ols_handle.cookie))
-		return 0;
+// 	if (! ergo(olock != NULL,
+// 		   olock->l_handle.h_cookie == ols->ols_handle.cookie))
+// 		return 0;
 
-	if (! ergo(handle_used,
-		   ergo(lock != NULL && olock != NULL, lock == olock) &&
-		   ergo(lock == NULL, olock == NULL)))
-		return 0;
-	/*
-	 * Check that ->ols_handle and ->ols_dlmlock are consistent, but
-	 * take into account that they are set at the different time.
-	 */
-	if (! ergo(ols->ols_state == OLS_CANCELLED,
-		   olock == NULL && !handle_used))
-		return 0;
-	/*
-	 * DLM lock is destroyed only after we have seen cancellation
-	 * ast.
-	 */
-	if (! ergo(olock != NULL && ols->ols_state < OLS_CANCELLED,
-		   !ldlm_is_destroyed(olock)))
-		return 0;
+// 	if (! ergo(handle_used,
+// 		   ergo(lock != NULL && olock != NULL, lock == olock) &&
+// 		   ergo(lock == NULL, olock == NULL)))
+// 		return 0;
+// 	/*
+// 	 * Check that ->ols_handle and ->ols_dlmlock are consistent, but
+// 	 * take into account that they are set at the different time.
+// 	 */
+// 	if (! ergo(ols->ols_state == OLS_CANCELLED,
+// 		   olock == NULL && !handle_used))
+// 		return 0;
+// 	/*
+// 	 * DLM lock is destroyed only after we have seen cancellation
+// 	 * ast.
+// 	 */
+// 	if (! ergo(olock != NULL && ols->ols_state < OLS_CANCELLED,
+// 		   !ldlm_is_destroyed(olock)))
+// 		return 0;
 
-	if (! ergo(ols->ols_state == OLS_GRANTED,
-		   olock != NULL &&
-		   ldlm_is_granted(olock) &&
-		   ols->ols_hold))
-		return 0;
-	return 1;
-}
+// 	if (! ergo(ols->ols_state == OLS_GRANTED,
+// 		   olock != NULL &&
+// 		   ldlm_is_granted(olock) &&
+// 		   ols->ols_hold))
+// 		return 0;
+// 	return 1;
+// }
 
 /*****************************************************************************
  *

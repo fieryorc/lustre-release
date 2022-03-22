@@ -135,30 +135,30 @@ static inline __u64 fid_flatten(const struct lu_fid *fid)
 /**
  * map fid to 32 bit value for ino on 32bit systems.
  */
-static inline __u32 fid_flatten32(const struct lu_fid *fid)
-{
-	__u32 ino;
-	__u64 seq;
+// static inline __u32 fid_flatten32(const struct lu_fid *fid)
+// {
+// 	__u32 ino;
+// 	__u64 seq;
 
-	if (fid_is_igif(fid)) {
-		ino = lu_igif_ino(fid);
-		return ino;
-	}
+// 	if (fid_is_igif(fid)) {
+// 		ino = lu_igif_ino(fid);
+// 		return ino;
+// 	}
 
-	seq = fid_seq(fid) - FID_SEQ_START;
+// 	seq = fid_seq(fid) - FID_SEQ_START;
 
-	/* Map the high bits of the OID into higher bits of the inode number so
-	 * that inodes generated at about the same time have a reduced chance
-	 * of collisions. This will give a period of 2^12 = 1024 unique clients
-	 * (from SEQ) and up to min(LUSTRE_SEQ_MAX_WIDTH, 2^20) = 128k objects
-	 * (from OID), or up to 128M inodes without collisions for new files.
-	 */
-	ino = ((seq & 0x000fffffULL) << 12) + ((seq >> 8) & 0xfffff000) +
-	      (seq >> (64 - (40-8)) & 0xffffff00) +
-	      (fid_oid(fid) & 0xff000fff) + ((fid_oid(fid) & 0x00fff000) << 8);
+// 	/* Map the high bits of the OID into higher bits of the inode number so
+// 	 * that inodes generated at about the same time have a reduced chance
+// 	 * of collisions. This will give a period of 2^12 = 1024 unique clients
+// 	 * (from SEQ) and up to min(LUSTRE_SEQ_MAX_WIDTH, 2^20) = 128k objects
+// 	 * (from OID), or up to 128M inodes without collisions for new files.
+// 	 */
+// 	ino = ((seq & 0x000fffffULL) << 12) + ((seq >> 8) & 0xfffff000) +
+// 	      (seq >> (64 - (40-8)) & 0xffffff00) +
+// 	      (fid_oid(fid) & 0xff000fff) + ((fid_oid(fid) & 0x00fff000) << 8);
 
-	return ino ?: fid_oid(fid);
-}
+// 	return ino ?: fid_oid(fid);
+// }
 
 static inline bool fid_eq(const lustre_fid *f1, const lustre_fid *f2)
 {

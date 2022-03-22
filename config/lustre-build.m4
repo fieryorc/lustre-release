@@ -175,6 +175,7 @@ AS_IF([test "x$enable_modules" = xyes], [
 			LN_PROG_LINUX_RESULTS
 			AS_IF([test "x$enable_server" != xno], [LB_EXT4_SRC_DIR_RESULTS])
 			LC_PROG_LINUX_RESULTS
+			AC_DEFINE(HAVE_PROC_OPS, 1, [override struct proc_ops exists])
 
 		], [*], [
 			# This is strange - Lustre supports a target we don't

@@ -540,7 +540,7 @@ ptlrpc_lprocfs_nrs_delay_min_seq_show(struct seq_file *m, void *data)
 
 	rc = ptlrpc_nrs_policy_control(svc, PTLRPC_NRS_QUEUE_REG,
 				       NRS_POL_NAME_DELAY,
-				       NRS_CTL_DELAY_RD_MIN,
+				       (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_RD_MIN,
 				       true, &min_delay);
 
 	if (rc == 0)
@@ -558,7 +558,7 @@ ptlrpc_lprocfs_nrs_delay_min_seq_show(struct seq_file *m, void *data)
 
 	rc = ptlrpc_nrs_policy_control(svc, PTLRPC_NRS_QUEUE_HP,
 				       NRS_POL_NAME_DELAY,
-				       NRS_CTL_DELAY_RD_MIN,
+				       (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_RD_MIN,
 				       true, &min_delay);
 	if (rc == 0)
 		seq_printf(m, LPROCFS_NRS_DELAY_MIN_NAME_HP"%-5d\n",
@@ -605,7 +605,7 @@ ptlrpc_lprocfs_nrs_delay_min_seq_write(struct file *file,
 						  LPROCFS_NRS_DELAY_LOWER_BOUND,
 						  LPROCFS_NRS_DELAY_UPPER_BOUND,
 						  svc, NRS_POL_NAME_DELAY,
-						  NRS_CTL_DELAY_WR_MIN, false);
+						  (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_WR_MIN, false);
 }
 LDEBUGFS_SEQ_FOPS(ptlrpc_lprocfs_nrs_delay_min);
 
@@ -623,7 +623,7 @@ ptlrpc_lprocfs_nrs_delay_max_seq_show(struct seq_file *m, void *data)
 
 	rc = ptlrpc_nrs_policy_control(svc, PTLRPC_NRS_QUEUE_REG,
 				       NRS_POL_NAME_DELAY,
-				       NRS_CTL_DELAY_RD_MAX,
+				       (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_RD_MAX,
 				       true, &max_delay);
 
 	if (rc == 0)
@@ -641,7 +641,7 @@ ptlrpc_lprocfs_nrs_delay_max_seq_show(struct seq_file *m, void *data)
 
 	rc = ptlrpc_nrs_policy_control(svc, PTLRPC_NRS_QUEUE_HP,
 				       NRS_POL_NAME_DELAY,
-				       NRS_CTL_DELAY_RD_MAX,
+				       (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_RD_MAX,
 				       true, &max_delay);
 	if (rc == 0)
 		seq_printf(m, LPROCFS_NRS_DELAY_MAX_NAME_HP"%-5d\n",
@@ -688,7 +688,7 @@ ptlrpc_lprocfs_nrs_delay_max_seq_write(struct file *file,
 						  LPROCFS_NRS_DELAY_LOWER_BOUND,
 						  LPROCFS_NRS_DELAY_UPPER_BOUND,
 						  svc, NRS_POL_NAME_DELAY,
-						  NRS_CTL_DELAY_WR_MAX, false);
+						  (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_WR_MAX, false);
 }
 LDEBUGFS_SEQ_FOPS(ptlrpc_lprocfs_nrs_delay_max);
 
@@ -707,7 +707,7 @@ ptlrpc_lprocfs_nrs_delay_pct_seq_show(struct seq_file *m, void *data)
 
 	rc = ptlrpc_nrs_policy_control(svc, PTLRPC_NRS_QUEUE_REG,
 				       NRS_POL_NAME_DELAY,
-				       NRS_CTL_DELAY_RD_PCT,
+				       (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_RD_PCT,
 				       true, &delay_pct);
 
 	if (rc == 0)
@@ -725,7 +725,7 @@ ptlrpc_lprocfs_nrs_delay_pct_seq_show(struct seq_file *m, void *data)
 
 	rc = ptlrpc_nrs_policy_control(svc, PTLRPC_NRS_QUEUE_HP,
 				       NRS_POL_NAME_DELAY,
-				       NRS_CTL_DELAY_RD_PCT,
+				       (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_RD_PCT,
 				       true, &delay_pct);
 	if (rc == 0)
 		seq_printf(m, LPROCFS_NRS_DELAY_PCT_NAME_HP"%-3d\n",
@@ -772,7 +772,7 @@ ptlrpc_lprocfs_nrs_delay_pct_seq_write(struct file *file,
 						  LPROCFS_NRS_DELAY_PCT_MIN_VAL,
 						  LPROCFS_NRS_DELAY_PCT_MAX_VAL,
 						  svc, NRS_POL_NAME_DELAY,
-						  NRS_CTL_DELAY_WR_PCT, false);
+						  (enum ptlrpc_nrs_ctl) NRS_CTL_DELAY_WR_PCT, false);
 }
 
 LDEBUGFS_SEQ_FOPS(ptlrpc_lprocfs_nrs_delay_pct);

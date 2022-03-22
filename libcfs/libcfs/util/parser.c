@@ -836,8 +836,8 @@ int Parser_bool(int *b, char *str)
 
 int Parser_quit(int argc, char **argv)
 {
-	argc = argc;
-	argv = argv;
+	// argc = argc;
+	// argv = argv;
 	done = 1;
 	return 0;
 }

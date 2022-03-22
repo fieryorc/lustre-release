@@ -5024,7 +5024,7 @@ static int lfs_find(int argc, char **argv)
 				param.fp_exclude_mtime = !!neg_opt;
 			}
 			rc = set_time(&param, &t, xtime, optarg);
-			if (rc == LONG_MAX) {
+			if ((unsigned long long)rc == LONG_MAX) {
 				ret = -1;
 				goto err;
 			}
@@ -8182,7 +8182,7 @@ static void print_quota(char *mnt, struct if_quotactl *qctl, int type,
 			snprintf(timebuf, sizeof(timebuf), "%llu",
 				 (unsigned long long)dqb->dqb_itime);
 
-		snprintf(numbuf[0], sizeof(numbuf),
+		snprintf(numbuf[0], sizeof(numbuf[0]),
 			 (dqb->dqb_valid & QIF_INODES) ? "%ju" : "[%ju]",
 			 (uintmax_t)dqb->dqb_curinodes);
 
@@ -8205,7 +8205,7 @@ static void print_quota(char *mnt, struct if_quotactl *qctl, int type,
 		else
 			printf(" %7s %7s %7s %7s", "-", "-", "-", "-");
 		printf("\n");
-	} else if (qctl->qc_cmd == LUSTRE_Q_GETINFO || LUSTRE_Q_GETINFOPOOL ||
+	} else if (qctl->qc_cmd == LUSTRE_Q_GETINFO || LUSTRE_Q_GETINFOPOOL != 0 ||
 		   qctl->qc_cmd == Q_GETOINFO) {
 		char bgtimebuf[40];
 		char igtimebuf[40];

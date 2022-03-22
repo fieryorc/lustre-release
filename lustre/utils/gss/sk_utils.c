@@ -245,11 +245,11 @@ int sk_load_keyfile(char *path)
 	}
 	if (config->skc_type & SK_TYPE_SERVER) {
 		/* Server keys need to have the file system name in the key */
-		if (!config->skc_fsname) {
-			printerr(0, "Key configuration has no file system "
-				 "attribute.  Can't load as server type\n");
-			goto out;
-		}
+		// if (!config->skc_fsname) {
+		// 	printerr(0, "Key configuration has no file system "
+		// 		 "attribute.  Can't load as server type\n");
+		// 	goto out;
+		// }
 		rc = snprintf(description, SK_DESCRIPTION_SIZE, "lustre:%s:%s",
 			      config->skc_fsname, config->skc_nodemap);
 		if (rc >= SK_DESCRIPTION_SIZE)
@@ -259,7 +259,8 @@ int sk_load_keyfile(char *path)
 	}
 	if (config->skc_type & SK_TYPE_CLIENT) {
 		/* Load client file system key */
-		if (config->skc_fsname) {
+		// if (config->skc_fsname != NULL) 
+		{
 			rc = snprintf(description, SK_DESCRIPTION_SIZE,
 				      "lustre:%s", config->skc_fsname);
 			if (rc >= SK_DESCRIPTION_SIZE)
@@ -357,12 +358,12 @@ int sk_validate_config(const struct sk_keyfile_config *config)
 		return -1;
 	}
 
-	if (config->skc_hmac_alg == SK_HMAC_INVALID) {
+	if ((unsigned long long)config->skc_hmac_alg == SK_HMAC_INVALID) {
 		printerr(0, "Invalid HMAC algorithm\n");
 		return -1;
 	}
 
-	if (config->skc_crypt_alg == SK_CRYPT_INVALID) {
+	if ((unsigned long long)config->skc_crypt_alg == SK_CRYPT_INVALID) {
 		printerr(0, "Invalid crypt algorithm\n");
 		return -1;
 	}

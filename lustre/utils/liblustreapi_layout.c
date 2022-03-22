@@ -2942,7 +2942,7 @@ int llapi_mirror_resync_many(int fd, struct llapi_layout *layout,
 		return -rc;
 
 	while (pos < end) {
-		uint64_t mirror_end;
+		uint64_t mirror_end = 0;
 		ssize_t bytes_read;
 		size_t to_read;
 		size_t to_write;

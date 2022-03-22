@@ -281,10 +281,10 @@ static struct config_llog_data *config_recover_log_add(struct obd_device *obd,
 	if (IS_SERVER(lsi)) { /* mdt */
 		LASSERT(lcfg.cfg_instance == 0);
 		lcfg.cfg_instance = ll_get_cfg_instance(sb);
-		strncat(logname, "-mdtir", sizeof(logname));
+		strncat(logname, "-mdtir", sizeof(logname)- strlen(logname) - 1);
 	} else {
 		LASSERT(lcfg.cfg_instance != 0);
-		strncat(logname, "-cliir", sizeof(logname));
+		strncat(logname, "-cliir", sizeof(logname)- strlen(logname) - 1);
 	}
 
 	cld = do_config_log_add(obd, logname, MGS_CFG_T_RECOVER, &lcfg, sb);

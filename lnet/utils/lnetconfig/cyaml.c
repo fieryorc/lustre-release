@@ -1257,7 +1257,7 @@ void cYAML_build_error(int rc, int seq_no, char *cmd,
 		       char *entity, char *err_str,
 		       struct cYAML **root)
 {
-	struct cYAML *r = NULL, *err, *s, *itm, *cmd_obj;
+	struct cYAML *r = NULL, *err, *s, *itm = NULL, *cmd_obj;
 	if (root == NULL)
 		return;
 

@@ -2987,7 +2987,7 @@ static void lov_dump_user_lmm_header(struct lov_user_md *lum, char *path,
 					     (__s16)lum->lmm_stripe_count);
 			}
 		} else {
-			llapi_printf(LLAPI_MSG_NORMAL, "%hd",
+			llapi_printf(LLAPI_MSG_NORMAL, "%d",
 				     extension ? 0 :
 				     (__s16)lum->lmm_stripe_count);
 		}

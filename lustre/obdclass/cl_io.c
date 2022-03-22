@@ -46,6 +46,8 @@
 #include "cl_internal.h"
 #include <libcfs/crypto/llcrypt.h>
 
+int cl_io_invariant(const struct cl_io *io);
+
 /*****************************************************************************
  *
  * cl_io interface.
@@ -66,20 +68,20 @@ static inline int cl_io_is_loopable(const struct cl_io *io)
  * cl_io invariant that holds at all times when exported cl_io_*() functions
  * are entered and left.
  */
-static int cl_io_invariant(const struct cl_io *io)
-{
-        struct cl_io *up;
+// static int cl_io_invariant(const struct cl_io *io)
+// {
+//         struct cl_io *up;
 
-        up = io->ci_parent;
-        return
-                /*
-                 * io can own pages only when it is ongoing. Sub-io might
-                 * still be in CIS_LOCKED state when top-io is in
-                 * CIS_IO_GOING.
-                 */
-                ergo(io->ci_owned_nr > 0, io->ci_state == CIS_IO_GOING ||
-                     (io->ci_state == CIS_LOCKED && up != NULL));
-}
+//         up = io->ci_parent;
+//         return
+//                 /*
+//                  * io can own pages only when it is ongoing. Sub-io might
+//                  * still be in CIS_LOCKED state when top-io is in
+//                  * CIS_IO_GOING.
+//                  */
+//                 ergo(io->ci_owned_nr > 0, io->ci_state == CIS_IO_GOING ||
+//                      (io->ci_state == CIS_LOCKED && up != NULL));
+// }
 
 /**
  * Finalize \a io, by calling cl_io_operations::cio_fini() bottom-to-top.

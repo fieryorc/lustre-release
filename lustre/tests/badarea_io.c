@@ -34,7 +34,7 @@
 
 int main(int argc, char **argv)
 {
-	int rc;
+	long long rc;
 	int fd;
 	void *volatile buf = (void *)0x4096000;
 	void *volatile fd_ptr;

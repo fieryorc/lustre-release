@@ -936,7 +936,7 @@ static inline void unstable_page_accounting(struct ptlrpc_bulk_desc *desc,
 		}
 
 		if (count > 0) {
-			mod_zone_page_state(zone, NR_WRITEBACK,
+			mod_zone_page_state(zone, (enum zone_stat_item)NR_WRITEBACK,
 					    factor * count);
 			count = 0;
 		}
@@ -944,7 +944,7 @@ static inline void unstable_page_accounting(struct ptlrpc_bulk_desc *desc,
 		++count;
 	}
 	if (count > 0)
-		mod_zone_page_state(zone, NR_WRITEBACK, factor * count);
+		mod_zone_page_state(zone, (enum zone_stat_item)NR_WRITEBACK, factor * count);
 }
 
 static inline void add_unstable_page_accounting(struct ptlrpc_bulk_desc *desc,
